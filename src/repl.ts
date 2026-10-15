@@ -2,7 +2,7 @@ import { createInterface } from "readline";
 import { getCommands } from "./command_registry.js";
 import { State } from "./state.js";
 
-export function startREPL(state: State) {
+export async function startREPL(state: State): Promise<void> {
     state.readline.prompt();
 
     state.readline.on("line", async (input) => {
@@ -11,7 +11,7 @@ export function startREPL(state: State) {
             const commands = getCommands();
             const inputCommand = cleanedInput[0];
             if (state.commands[inputCommand]) {
-                state.commands[inputCommand].callback(state);
+                await state.commands[inputCommand].callback(state);
             }
         }
         state.readline.prompt();
