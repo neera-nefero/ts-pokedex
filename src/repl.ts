@@ -1,6 +1,8 @@
-import * as readline from "node:readline";
+import { createInterface } from "readline";
+import { getCommands } from "./command_registry.js";
+
 export function startREPL() {
-    const rl = readline.createInterface({
+    const rl = createInterface({
         input: process.stdin,
         output: process.stdout,
         prompt: "Pokedex > ",
@@ -8,10 +10,14 @@ export function startREPL() {
 
     rl.prompt();
 
-    rl.on("line", (input) => {
+    rl.on("line", async (input) => {
         const cleanedInput = cleanInput(input);
         if (cleanedInput.length > 0) {
-            console.log(`Your command was: ${cleanedInput[0]}`);
+            const commands = getCommands();
+            const inputCommand = cleanedInput[0];
+            if (commands[inputCommand]) {
+                commands[inputCommand].callback(commands);
+            }
         }
         rl.prompt();
     });
