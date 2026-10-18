@@ -23,5 +23,5 @@ export async function commandCatch(state: State, ...args: string[]): Promise<voi
 };
 
 function isCaptured(difficulty: number) {
-    return (Math.floor(Math.random() * 1000) - difficulty > 500);
+    return (Math.floor(Math.random() * 1000) - difficulty > 625);
 }
