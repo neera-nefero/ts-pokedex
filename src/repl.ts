@@ -8,10 +8,10 @@ export async function startREPL(state: State): Promise<void> {
     state.readline.on("line", async (input) => {
         const cleanedInput = cleanInput(input);
         if (cleanedInput.length > 0) {
-            const commands = getCommands();
             const inputCommand = cleanedInput[0];
+            const restCommands = cleanedInput.slice(1);
             if (state.commands[inputCommand]) {
-                await state.commands[inputCommand].callback(state);
+                await state.commands[inputCommand].callback(state, ...restCommands);
             }
         }
         state.readline.prompt();
