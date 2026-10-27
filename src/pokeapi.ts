@@ -135,9 +135,31 @@ export type PokemonDetail = {
     name: string
     base_experience: number
     height: number
-    is_default: boolean
-    order: number
     weight: number
+    order: number
+    stats: Stat[]
+    types: Type[]
+}
+
+export type Type = {
+    slot: number
+    type: Type2
+}
+
+export type Type2 = {
+    name: string
+    url: string
+}
+
+export type Stat = {
+    base_stat: number
+    effort: number
+    stat: Stat2
+}
+
+export type Stat2 = {
+    name: string
+    url: string
 }
 
 export type VersionDetail2 = {
