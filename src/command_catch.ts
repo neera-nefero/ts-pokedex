@@ -16,6 +16,7 @@ export async function commandCatch(state: State, ...args: string[]): Promise<voi
     console.log(`Throwing a Pokeball at ${pokemonResponse.name}...`);
     if (isCaptured(pokemonResponse.base_experience)) {
         console.log(`${pokemonResponse.name} was caught!`);
+        console.log("You may now inspect it with the inspect command.");
         state.userPokemons[pokemonResponse.name] = pokemonResponse;
     } else {
         console.log(`${pokemonResponse.name} escaped!`);
