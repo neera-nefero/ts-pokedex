@@ -2,9 +2,11 @@ import { Cache } from "./pokecache.js";
 
 export class PokeAPI {
     private static readonly baseURL = "https://pokeapi.co/api/v2";
-    private pokeCache = new Cache(1000 * 60);
+    private pokeCache: Cache;
 
-    constructor() { }
+    constructor(interval: number) {
+        this.pokeCache = new Cache(interval)
+    }
 
     async fetchLocations(pageURL?: string): Promise<ShallowLocations> {
         const url = pageURL || `${PokeAPI.baseURL}/location-area`;
@@ -65,6 +67,10 @@ export class PokeAPI {
             }
         }
         return cached;
+    }
+
+    closeCache() {
+        this.pokeCache.stopReapLoop();
     }
 }
 

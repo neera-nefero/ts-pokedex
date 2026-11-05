@@ -27,7 +27,7 @@ export function initState(): State {
         }),
         commands: getCommands(),
         userPokemons: {},
-        pokeApi: new PokeAPI,
+        pokeApi: new PokeAPI(1000 * 60),
         nextLocationsUrl: "",
         prevLocationsURL: "",
     }

@@ -12,16 +12,21 @@ test.concurrent.each([
         val: "moretestdata",
         interval: 1000, // 1 second
     },
-])("Test Caching $interval ms", async ({ key, val, interval }) => {
+])("Test     Caching $interval ms", async ({ key, val, interval }) => {
     const cache = new Cache(interval);
 
-    cache.add(key, val);
-    const cached = cache.get(key);
-    expect(cached).toBe(val);
+    try {
+        cache.add(key, val);
+        const cached = cache.get(key);
+        expect(cached).toBe(val);
 
-    await new Promise((resolve) => setTimeout(resolve, interval * 2));
-    const reaped = cache.get(key);
-    expect(reaped).toBe(undefined);
+        await new Promise((resolve) => setTimeout(resolve, interval - (interval / 2)));
+        const not_reaped = cache.get(key);
+        expect(not_reaped).toBe(val);
 
-    cache.stopReapLoop();
+        await expect.poll(() => cache.get(key), { timeout: 5000 }).toBe(undefined);
+
+    } finally {
+        cache.stopReapLoop();
+    }
 });
